@@ -5,11 +5,13 @@ import { UserContext } from "../providers/UserProvider";
 import { getList } from "../api/Post";
 import styled from "styled-components";
 import Paging from "./Paging"
+import { PageContext } from "../providers/PageProvider";
+import ReloadButton from "./ReloadButton";
 
 export default function PostList() {
     const {postList, setPostList} = useContext(PostContext);
     const { userInfo} = useContext(UserContext);
-    const [index, setIndex] = useState<number>(0)
+    const { setIndex }= useContext(PageContext)
 
     const getPostList = async(start: number = 0) => {
         const posts = await getList(userInfo.token);
@@ -30,7 +32,6 @@ export default function PostList() {
     
     }
 
-
     useEffect(() => {
         getPostList(0)
 
@@ -47,7 +48,8 @@ export default function PostList() {
             {postList.map((post: PostType) => (
                 <Post key={post.id} post ={post}></Post>
             ))}
-            <Paging index = {index} setIndex = {setIndex}></Paging>
+            <Paging></Paging>
+            <ReloadButton getPostList={getPostList}></ReloadButton>
         </SPostList>
     )
 }
@@ -56,4 +58,8 @@ const SPostList = styled.div`
     margin-top: 16px;
     height: 100%;
     overflow-y: scroll;
+`
+
+const SReloadButton = styled.div `
+    margin-top: 20px
 `

@@ -2,6 +2,7 @@ import styled from "styled-components"
 import Header from "./Header"
 import SideBar from "./SideBar"
 import Contents from "./Contents"
+import PageProvider from "../providers/PageProvider"
 
 
 export default function Layout() {
@@ -11,14 +12,16 @@ export default function Layout() {
                 <SHeader>
                     <Header></Header>
                 </SHeader>
-                <SBody>
-                    <SSideBar>
-                        <SideBar></SideBar>
-                    </SSideBar>
-                    <SContents>
-                        <Contents></Contents>
-                    </SContents>
-                </SBody>
+                <PageProvider>
+                  <SBody>
+                      <SSideBar>
+                          <SideBar></SideBar>
+                      </SSideBar>
+                      <SContents>
+                          <Contents></Contents>
+                      </SContents>
+                  </SBody>
+                </PageProvider>
        
         </>
     )
