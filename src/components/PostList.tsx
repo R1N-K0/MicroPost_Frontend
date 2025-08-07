@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Post from "./Post";
 import { PostContext, PostType } from "../providers/PostListProvider";
 import { UserContext } from "../providers/UserProvider";
@@ -9,8 +9,9 @@ import Paging from "./Paging"
 export default function PostList() {
     const {postList, setPostList} = useContext(PostContext);
     const { userInfo} = useContext(UserContext);
+    const [index, setIndex] = useState<number>(0)
 
-    const getPostList = async() => {
+    const getPostList = async(start: number = 0) => {
         const posts = await getList(userInfo.token);
 
         if(posts){
@@ -21,14 +22,23 @@ export default function PostList() {
                 created_at: new Date(p.created_at)
                 
             }))
-            setPostList(postList)
+            if(postList.length > 0){
+                setPostList(postList)
+                setIndex(start)
+            }
         }
     
     }
 
 
     useEffect(() => {
-        getPostList()
+        getPostList(0)
+
+        const interval = setInterval(() => {
+            getPostList(0)
+        }, 60000);
+
+        return () => clearInterval(interval)
     }, [])
     
     return (
@@ -37,7 +47,7 @@ export default function PostList() {
             {postList.map((post: PostType) => (
                 <Post key={post.id} post ={post}></Post>
             ))}
-            <Paging></Paging>
+            <Paging index = {index} setIndex = {setIndex}></Paging>
         </SPostList>
     )
 }
