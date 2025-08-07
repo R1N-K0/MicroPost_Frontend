@@ -17,3 +17,11 @@ export const post = async(token: string, message: string) => {
 
     return res.data
 }
+
+export const deletePost = async(token: string, id: number) => {
+    const api = process.env.REACT_APP_API_URL
+    const url = `${api}/post?token=${token}&id=${id}`
+    const res = await axios.delete(url)
+
+    return res.data
+}

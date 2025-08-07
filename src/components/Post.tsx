@@ -1,13 +1,16 @@
-import { ReactNode } from "react"
+import { ReactNode, useContext } from "react"
 import { PostType } from "../providers/PostListProvider"
 import React from "react"
 import styled from "styled-components"
+import { UserContext } from "../providers/UserProvider"
+import DeleteButton from "./DeleteButton"
 
 type Props = {
     post: PostType
 }
 export default function Post(props: Props) {
     const {post} = props
+    const {userInfo} = useContext(UserContext)
 
     const getDateStr = (dateObj: Date) => {
         const year = post.created_at.getFullYear();
@@ -34,7 +37,12 @@ export default function Post(props: Props) {
            <div>
                 <SName>{post.user_name}</SName>
                 <SDate>{getDateStr(post.created_at)}</SDate>
-                <div>{getLines(post.content)}</div>
+                <div>
+                    {getLines(post.content)}
+                    {
+                        userInfo.id === post.user_id ? <DeleteButton id = {post.id}></DeleteButton> : null
+                    }
+                    </div>
            </div>
         </SPost>
     )
