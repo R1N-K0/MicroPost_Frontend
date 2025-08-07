@@ -4,6 +4,7 @@ import { PostContext, PostType } from "../providers/PostListProvider";
 import { UserContext } from "../providers/UserProvider";
 import { getList } from "../api/Post";
 import styled from "styled-components";
+import Paging from "./Paging"
 
 export default function PostList() {
     const {postList, setPostList} = useContext(PostContext);
@@ -36,6 +37,7 @@ export default function PostList() {
             {postList.map((post: PostType) => (
                 <Post key={post.id} post ={post}></Post>
             ))}
+            <Paging></Paging>
         </SPostList>
     )
 }
