@@ -4,28 +4,13 @@ import {post, getList} from "../api/Post"
 import { PostContext } from "../providers/PostListProvider";
 import { PostType } from "../providers/PostListProvider";
 import styled from "styled-components";
+import { usePostList } from "../hooks/usePostList";
 
 export default function SideBar() {
     const [msg, setMsg] = useState<string>("");
-    const {userInfo} = useContext(UserContext);
-    const {setPostList} = useContext(PostContext);
+    const {userInfo} = useContext(UserContext)
+    const {getPostList} = usePostList();
 
-    const getPostList = async() => {
-            const posts = await getList(userInfo.token);
-    
-            if(posts){
-                const postList: PostType[] = posts.map((p: any) => ({
-                    id: p.id,
-                    user_name: p.user_name,
-                    content: p.content,
-                    created_at: new Date(p.created_at)
-                    
-                }))
-                setPostList(postList)
-            }
-        
-        }
-    
 
     const onSendClick = async() => {
         await post(userInfo.token, msg);

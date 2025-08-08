@@ -8,9 +8,10 @@ import Paging from "./Paging"
 import { PageContext } from "../providers/PageProvider";
 import ReloadButton from "./ReloadButton";
 import { usePostList } from "../hooks/usePostList";
+import SearchBox from "./SearchBox";
 
 export default function PostList() {
-    const {postList, setPostList} = useContext(PostContext);
+    const {postList, keyword,setPostList} = useContext(PostContext);
     const {userInfo} = useContext(UserContext)
     const {setIndex} = useContext(PageContext)
     const latestPostId = 0
@@ -22,7 +23,7 @@ export default function PostList() {
         (async () => {
             await getPostList(0)
             const interval = setInterval(async() => {
-                const posts = await getList(userInfo.token, 0)
+                const posts = await getList(userInfo.token, 0, keyword)
                 if(posts){
                     const postList: PostType[] = posts.map((p: any) => ({
                         id: p.id,
@@ -46,7 +47,10 @@ export default function PostList() {
 
     return (
         <SPostList>
-            <p>PostList</p>
+            <div>
+                <p>PostList</p>
+                <SearchBox></SearchBox>
+            </div>
             {postList.map((post: PostType) => (
                 <Post key={post.id} post ={post}></Post>
 

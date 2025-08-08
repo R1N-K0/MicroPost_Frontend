@@ -18,16 +18,19 @@ type Props = {
 
 export const PostContext = createContext({} as {
     postList: PostType[],
-    setPostList: Dispatch<SetStateAction<PostType[]>>
+    setPostList: Dispatch<SetStateAction<PostType[]>>,
+    keyword: string,
+    setKeyword: Dispatch<SetStateAction<string>>
 });
 
 export const PostProvider = (props: Props) => {
     const {children} = props
 
     const [postList, setPostList] = useState<PostType[]>([])
+    const [keyword, setKeyword] = useState<string>("")
     return (
         <>
-            <PostContext.Provider value={{postList, setPostList}}>{children}</PostContext.Provider>
+            <PostContext.Provider value={{postList, setPostList, keyword, setKeyword}}>{children}</PostContext.Provider>
         </>
     )
 }

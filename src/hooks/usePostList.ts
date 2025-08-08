@@ -6,12 +6,12 @@ import { getList } from "../api/Post"
 import { PostType } from "../providers/PostListProvider"
 
 export const usePostList = () => {
-    const {setPostList} = useContext(PostContext)
-    const {setIndex} = useContext(PageContext)
+    const {keyword,setPostList} = useContext(PostContext)
+    const {index,setIndex} = useContext(PageContext)
     const {userInfo} = useContext(UserContext)
     
     const getPostList = async(start: number = 0) => {
-        const posts = await getList(userInfo.token, start)
+        const posts = await getList(userInfo.token, start, keyword)
     
         if(posts){
             const postList: PostType[] = posts.map((p: any) => ({
@@ -25,6 +25,8 @@ export const usePostList = () => {
             if(postList.length > 0){
                 setPostList(postList)
                 setIndex(start)
+            } else if (start == 0 && keyword != ""){
+                setPostList([])
             }
            
         }
