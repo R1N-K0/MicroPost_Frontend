@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Post from "./Post";
 import { PostContext, PostType } from "../providers/PostListProvider";
 import { UserContext } from "../providers/UserProvider";
@@ -10,20 +10,40 @@ import ReloadButton from "./ReloadButton";
 import { usePostList } from "../hooks/usePostList";
 
 export default function PostList() {
-    const {postList} = useContext(PostContext);
+    const {postList, setPostList} = useContext(PostContext);
+    const {userInfo} = useContext(UserContext)
+    const {setIndex} = useContext(PageContext)
+    const latestPostId = 0
+    const postIdRef = useRef(latestPostId)
 
     const {getPostList} = usePostList()
 
     useEffect(() => {
-        getPostList(0)
+        (async () => {
+            await getPostList(0)
+            const interval = setInterval(async() => {
+                const posts = await getList(userInfo.token, 0)
+                if(posts){
+                    const postList: PostType[] = posts.map((p: any) => ({
+                        id: p.id,
+                        user_id: p.user_id,
+                        user_name: p.user_name,
+                        content: p.content,
+                        created_at: new Date(p.created_at)
+                            
+                    }))
+                    if(postList.length > 0 && postIdRef.current < postList[0].id){
+                        setPostList(postList)
+                        setIndex(0)
+                        postIdRef.current = postList[0].id
 
-        const interval = setInterval(() => {
-            getPostList(0)
-        }, 60000);
-
-        return () => clearInterval(interval)
+                    }
+                }
+            }, 60000);
+            return () => clearInterval(interval)
+        })();
     }, [])
-    
+
     return (
         <SPostList>
             <p>PostList</p>
