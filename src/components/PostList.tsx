@@ -51,10 +51,12 @@ export default function PostList() {
                 <p>PostList</p>
                 <SearchBox></SearchBox>
             </div>
-            {postList.map((post: PostType) => (
+            {postList.length == 0 ? <SNotFoundDiv>投稿がありません</SNotFoundDiv> : 
+            (postList.map((post: PostType) => (
                 <Post key={post.id} post ={post}></Post>
 
-            ))}
+            )))
+            }
             <Paging></Paging>
             <ReloadButton ></ReloadButton>
         </SPostList>
@@ -67,3 +69,7 @@ const SPostList = styled.div`
     overflow-y: scroll;
 `
 
+const SNotFoundDiv = styled.div`
+    margin-top: 30px;
+    margin-bottom: 30px;
+`
