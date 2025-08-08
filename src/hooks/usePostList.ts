@@ -25,7 +25,7 @@ export const usePostList = () => {
             if(postList.length > 0){
                 setPostList(postList)
                 setIndex(start)
-            } else if (start == 0 && keyword != ""){
+            } else if (start === 0 && keyword !== ""){
                 setPostList([])
             }
            

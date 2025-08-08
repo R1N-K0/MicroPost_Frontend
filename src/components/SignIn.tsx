@@ -12,14 +12,16 @@ export default function SignIn() {
     const {setUserInfo} = useContext(UserContext)
 
     const onSignInClick = async () => {
-        console.log("onSignInClick")
-        const ret = await sign_in(userId, pass)
-        if (ret && ret.token) {
-            setUserInfo({
-                id: ret.user_id,
-                token: ret.token,
-            })
-            navigate("/main");
+        try {console.log("onSignInClick")
+          const ret = await sign_in(userId, pass)
+          if (ret && ret.token) {
+              setUserInfo({
+                  id: ret.user_id,
+                  token: ret.token,
+              })
+              navigate("/main");
+        }} catch(error :any) {
+          alert(error.message || JSON.stringify(error))
         }
     }
 
