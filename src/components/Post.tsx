@@ -4,6 +4,7 @@ import React from "react"
 import styled from "styled-components"
 import { UserContext } from "../providers/UserProvider"
 import DeleteButton from "./DeleteButton"
+import { Link } from "react-router-dom"
 
 type Props = {
     post: PostType
@@ -35,7 +36,7 @@ export default function Post(props: Props) {
     return (
         <SPost>
            <div>
-                <SName>{post.user_name}</SName>
+                <SName><Link to={`/main/${post.user_id}`}>リンク</Link></SName>
                 <SDate>{getDateStr(post.created_at)}</SDate>
                 <div>
                     {getLines(post.content)}

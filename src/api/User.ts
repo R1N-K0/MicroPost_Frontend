@@ -1,8 +1,9 @@
 import axios, { Axios } from "axios"
+import { UserData } from "../types/UserData"
 
 const api = process.env.REACT_APP_API_URL
 
-export const getUser = async(user_id: number, token: string) => {
+export const getUser = async(user_id: number, token: string): Promise<UserData> => {
 
     const url = `${api}/user/${user_id}?token=${token}`
     const res = await axios.get(url)

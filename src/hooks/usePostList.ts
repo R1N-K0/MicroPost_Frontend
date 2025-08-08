@@ -7,7 +7,7 @@ import { PostType } from "../providers/PostListProvider"
 
 export const usePostList = () => {
     const {keyword,setPostList} = useContext(PostContext)
-    const {index,setIndex} = useContext(PageContext)
+    const {setIndex} = useContext(PageContext)
     const {userInfo} = useContext(UserContext)
     
     const getPostList = async(start: number = 0) => {

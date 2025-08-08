@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../providers/UserProvider"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { getUser } from "../api/User";
 import styled from "styled-components";
 
@@ -26,7 +26,7 @@ export default function Header() {
         <SHeader>
             <SLogo>MicroPost</SLogo>
             <SRightItem>
-                <SName>{userName}</SName>
+                <SName><Link to={`/main/${userInfo.id}`}>{userName}</Link></SName>
                 <SLogout onClick={logout}>ログアウト</SLogout>
             </SRightItem>
         </SHeader>
