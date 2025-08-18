@@ -9,6 +9,14 @@ export const getList = async(token: string, start:number=0, q: string) => {
     return res.data
 }
 
+export const getUserPosts = async(token: string, id: number) => {
+    const url = `${api}/post/${id}?token=${token}`;
+    console.log(url)
+    const res = await axios.get(url);
+
+    return res.data
+}
+
 
 export const post = async(token: string, message: string) => {
     const data =  {
