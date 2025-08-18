@@ -1,6 +1,10 @@
 import axios, { Axios } from "axios"
 import { UserData } from "../types/UserData"
 
+type Edit = {
+    name: string
+}
+
 const api = process.env.REACT_APP_API_URL
 
 export const getUser = async(user_id: number, token: string): Promise<UserData> => {
@@ -35,4 +39,10 @@ export const sign_up = async(user_id: string,email: string ,pass: string) => {
 
         throw error
    }
+}
+
+export const updateUser = async(token: string, user_id: number, data: Edit): Promise<UserData> => {
+      const url = `${api}/user/${user_id}?token=${token}`
+      const res = await axios.put(url, data)
+      return res.data;
 }
