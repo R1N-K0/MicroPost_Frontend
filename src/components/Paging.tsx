@@ -25,9 +25,9 @@ export default function Paging() {
     return (
         <>
             <SRow>
-                <button onClick={onPrevClick}>前のページへ</button>
+                <button onClick={onPrevClick} className="bg-gray-800 text-sm text-white rounded-l-md py-1 border-l border-gray-200 hover:bg-red-700 hover:text-white px-3">前のページへ</button>
                 <span>{index + 1}</span>
-                <button onClick={onNextClick}>次のページへ</button>
+                <button onClick={onNextClick} className="bg-gray-800 text-sm text-white rounded-r-md py-1 border-l border-gray-200 hover:bg-red-700 hover:text-white px-3">次のページへ</button>
             </SRow>
         </>
     )

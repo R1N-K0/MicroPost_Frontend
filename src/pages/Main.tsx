@@ -14,6 +14,7 @@ export default function Main() {
                 loggedIn ? <Layout></Layout> : <Navigate replace to="/"></Navigate>
             }
         </PostProvider>
+        
         </>
     )
 }

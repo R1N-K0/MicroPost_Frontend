@@ -40,30 +40,33 @@ export default function PostList() {
 
                     }
                 }
-            }, 60000);
+            }, 5000);
             return () => clearInterval(interval)
         })();
     }, [])
 
     return (
-        <SPostList>
+        <div className="overflow-y-scroll h-full py-5 ">
             <div>
-                <p>PostList</p>
+                <p className="text-2xl font-bold text-slate-800">PostList</p>
                 <SearchBox></SearchBox>
             </div>
-            {postList.length == 0 ? <SNotFoundDiv>投稿がありません</SNotFoundDiv> : 
-            (postList.map((post: PostType) => (
-                <Post key={post.id} post ={post}></Post>
-
-            )))
-            }
+            
+            <div className="flex flex-col items-center justify-center space-y-4 w-full px-64 mt-3 mb-5">
+                {postList.length == 0 ? <SNotFoundDiv>投稿がありません</SNotFoundDiv> : 
+                (postList.map((post: PostType) => (
+                    <Post key={post.id} post ={post}></Post>
+    
+                )))
+                }
+            </div>
             <Paging></Paging>
-            <ReloadButton ></ReloadButton>
-        </SPostList>
+            <ReloadButton ></ReloadButton>            
+        </div>
     )
 }
 
-const SPostList = styled.div`
+const SPostList = styled.div`;
     margin-top: 16px;
     height: 100%;
     overflow-y: scroll;

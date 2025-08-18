@@ -17,7 +17,7 @@ export const usePostList = () => {
             const postList: PostType[] = posts.map((p: any) => ({
                 id: p.id,
                 user_id: p.user_id,
-                user_name: p.user_name,
+                name: p.name,
                 content: p.content,
                 created_at: new Date(p.created_at)
                     

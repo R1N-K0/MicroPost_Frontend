@@ -1,4 +1,3 @@
-import styled from "styled-components"
 import { usePostList } from "../hooks/usePostList"
 
 
@@ -11,11 +10,8 @@ export default function ReloadButton() {
     }
     return (
         <>
-            <SReloadButton><button onClick={onReloadClick}>更新</button></SReloadButton>
+           <button onClick={onReloadClick} className="my-5 border border-gray-300 rounded-sm shadow-sm text-gray-900 px-2 hover:border-gray-700">更新</button>
         </>
     )
 }
 
-const SReloadButton = styled.div `
-    margin-top: 20px
-`

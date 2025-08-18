@@ -30,8 +30,8 @@ export default function UserContent() {
                 {
                     userData ? 
                     <>
-                        <div>{userData.id}</div>
-                        <div>{userData.name}</div>
+                        <div>ユーザーID：{userData.id}</div>
+                        <div>ユーザー名：{userData.name}</div>
                         <div>{new Date(userData.created_at)
                             .toLocaleDateString(
                                 "ja-JP", {
@@ -40,7 +40,7 @@ export default function UserContent() {
                                 day: "2-digit",
                             })
                         .split("/")
-                        .join("-")}
+                        .join("-")}に始めました。
                         </div>
                     </>
                     : <div>データがありません</div>

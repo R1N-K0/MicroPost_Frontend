@@ -12,6 +12,7 @@ type Props = {
 export default function Post(props: Props) {
     const {post} = props
     const {userInfo} = useContext(UserContext)
+    console.log(post);
 
     const getDateStr = (dateObj: Date) => {
         const year = post.created_at.getFullYear();
@@ -34,18 +35,32 @@ export default function Post(props: Props) {
         })
     }
     return (
-        <SPost>
-           <div>
-                <SName><Link to={`/main/${post.user_id}`}>リンク</Link></SName>
-                <SDate>{getDateStr(post.created_at)}</SDate>
-                <div>
-                    {getLines(post.content)}
-                    {
-                        userInfo.id === post.user_id ? <DeleteButton id = {post.id}></DeleteButton> : null
-                    }
+
+        <div className="block container min-w-64 p-3 text-left px-7 border border-gray-200 rounded-lg shadow-sm">
+            <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-center space-x-1">
+                    <div className="text-sm font-bold text-gray-900">
+                        <Link to={`/main/${post.user_id}`}>{post.name ? post.name : "ユーザー名"}</Link>
                     </div>
-           </div>
-        </SPost>
+                    <div className="text-gray-400 text-sm font-normal">{getDateStr(post.created_at)}</div>
+                </div>
+                {
+                    userInfo.id === post.user_id ? <DeleteButton id = {post.id}></DeleteButton> : null
+                }
+            </div>
+            <p className="font-normal text-gray-700 ">
+                {getLines(post.content)}
+                
+            </p>
+        </div>
+        // <SPost>
+        //    <div>
+        //         <SName><Link to={`/main/${post.user_id}`}>リンク</Link></SName>
+        //         <SDate>{getDateStr(post.created_at)}</SDate>
+        //         <div>
+                    
+        //    </div>
+        // </SPost>
     )
 }
 

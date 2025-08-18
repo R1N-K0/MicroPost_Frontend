@@ -24,7 +24,7 @@ export default function Header() {
 
     return (
         <SHeader>
-            <SLogo>MicroPost</SLogo>
+            <SLogo><Link to="/main">MicroPost</Link></SLogo>
             <SRightItem>
                 <SName><Link to={`/main/${userInfo.id}`}>{userName}</Link></SName>
                 <SLogout onClick={logout}>ログアウト</SLogout>

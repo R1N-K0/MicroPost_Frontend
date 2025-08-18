@@ -32,88 +32,37 @@ export default function SignUp() {
   
     return (
     <>
-      <SSignInFrame>
-        <SSignInRow>
-          <SSignInLabel>
-            <label htmlFor="id">ID</label>
-          </SSignInLabel>
-          <SSignInInput>
-            <input
-              id="id"
-              type="text"
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
+        <div className="bg-white w-100 h-full">
+        <div className="container flex-row items-center justify-center p-8 rounded-lg shadow-lg  w-[70%] border-1 mx-auto mt-60">
+          <div className="text-2xl font-bold mb-6 text-center text-gray-800">
+              新規アカウント作成
+          </div>
+          <div className="mb-4 flex  justify-center items-center space-x-4">
+            <label htmlFor="name" className=" block w-32 text-sm font-medium text-gray-900 dark:text-white">ユーザー名</label>
+            <input id="name" type="text" value={userId} onChange={(e) => setUserId(e.target.value)}
+            className=" px-4 py-2 border border-gray-300 rounded-md shadow-sm"
             />
-          </SSignInInput>
-        </SSignInRow>
-        <SSignInRow>
-          <SSignInLabel>
-            <label htmlFor="email">Email</label>
-          </SSignInLabel>
-          <SSignInInput>
-            <input
-              id="email"
-              type="email"
-              value = {email}
-              onChange={(e) => setEmail(e.target.value)}
+          </div>
+          <div className="mb-4 flex  justify-center items-center space-x-4">
+            <label htmlFor="email"className="block w-32 text-sm font-medium text-gray-900 dark:text-white">メールアドレス</label>
+            <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+             className=" px-4 py-2 border border-gray-300 rounded-md shadow-sm"
             />
-          </SSignInInput>
-        </SSignInRow>
-        <SSignInRow>
-          <SSignInLabel>
-            <label htmlFor="password">Password</label>
-          </SSignInLabel>
-          <SSignInInput>
-            <input
-              id="password"
-              type="password"
-              value={pass}
-              onChange={(e) => setPass(e.target.value)}
+          </div>
+          <div className="mb-4 flex  justify-center items-center space-x-4">
+            <label htmlFor="pass"className="block w-32 text-sm font-medium text-gray-900 dark:text-white">パスワード</label>
+            <input id="pass" type="password" value={pass} onChange={(e) => setPass(e.target.value)}
+             className=" px-4 py-2 border border-gray-300 rounded-md shadow-sm"
             />
-          </SSignInInput>
-        </SSignInRow>
-        <SSignInRow>
-          <SLoginButton type="button" onClick={onSignUpClick}>
-            新規作成
-          </SLoginButton>
-        </SSignInRow>
-      </SSignInFrame>
+          </div>
+          <div>
+            <button type="button" onClick={onSignUpClick}
+            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-10 py-2.5">
+              新規作成
+            </button>
+          </div>
+        </div>
+      </div>
     </>
-  );
+    )
 }
-
-const SSignInFrame = styled.div`
-  background-color: #f8f8f8;
-  margin: 80px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border-radius: 8px;
-  box-shadow: 0 8px 8px #aaaaaa;
-`;
-
-const SSignInRow = styled.div`
-  margin-top: 4px;
-  margin-bottom: 4px;
-`;
-
-const SSignInLabel = styled.span`
-  display: inline-block;
-  width: 25%;
-  vertical-align: top;
-  text-align: right;
-  margin-right: 4px;
-`;
-
-const SSignInInput = styled.span`
-  display: inline-block;
-  width: auto;
-  vertical-align: top;
-  margin-left: 4px;
-`;
-
-const SLoginButton = styled.button`
-  background-color: #444444;
-  color: #f0f0f0;
-  padding: 4px 16px;
-  border-radius: 8px;
-`;
