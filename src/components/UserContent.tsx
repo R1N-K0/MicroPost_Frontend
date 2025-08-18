@@ -2,16 +2,18 @@ import { useContext, useEffect } from "react"
 import { getUser, updateUser } from "../api/User"
 import { useState } from "react"
 import { UserData } from "../types/UserData"
-
 import { UserContext } from "../providers/UserProvider"
 import { useParams } from "react-router-dom"
 import { getUserPosts } from "../api/Post"
 import { PostType } from "../providers/PostListProvider"
 import Post from "./Post"
+import { useImage } from "../hooks/useImage"
+import  ImageUpload  from "./ImageUpload";
 
 
 
 export default function UserContent() {
+    const {image, uploadedImage,  handleChooseImage, handleUploadImage,preview, setPreview } = useImage()
     const {userInfo} = useContext(UserContext)
     const [userData, setUserData] = useState<UserData | null>(null)
     const [userPosts, setUserPosts] = useState<PostType[]>([])
@@ -21,7 +23,7 @@ export default function UserContent() {
     const user_id = id ? parseInt(id) : null
 
     const onClickEdit = () => {
-        setIsEdit(true)
+        setIsEdit(true)      
         if(!userData) return;
         setText(userData.name)
     }
@@ -29,18 +31,24 @@ export default function UserContent() {
     const onClickBack = () => {
         setIsEdit(false)
         setText("")
+        if(userData?.image) {
+            setPreview(userData.image)
+        }
+        else {
+            setPreview("/no-data.jpg")
+        }
     }
 
     const onClickSubmit = async () => {
+        await handleUploadImage()
         const data = {
             name: text
         }
         const res = await updateUser(userInfo.token, userData!.id, data)
         setIsEdit(false)
         setText("")
-        console.log(res)
         if(!res) return
-        setUserData(res)
+        setUserData({...res, image: uploadedImage})
     }
     
     useEffect(() => {
@@ -62,6 +70,11 @@ export default function UserContent() {
                 }
       })();
     }, [])
+   useEffect(() => {
+    if (userData) {
+        setPreview(userData.image || "/no-data.jpg");
+    }
+    }, [userData]); 
     
     
     return (
@@ -85,7 +98,16 @@ export default function UserContent() {
                             )}
 
                             <div className="flex flex-col items-center justify-center space-y-2">
-                                {isEdit ?<input className="w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder={userData.name} value={text} onChange={(e) => setText(e.target.value)} /> 
+                                
+                                <div className="block w-24 h-24">
+                                    <>
+                                    <img className="rounded-full w-24 h-24" src={preview} alt="user icon"></img>
+                                    </>                                
+
+                                </div>
+                                {isEdit ?<>
+                                <input type="file" onChange={handleChooseImage}  />
+                                <input className="mt-4 w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder={userData.name} value={text} onChange={(e) => setText(e.target.value)} /> </>
                                 :<div className="font-bold text-2xl text-gray-800">{userData.name}</div> }
 
                                 <div className="text-gray-500 text-sm">@{userData.id}</div>
@@ -106,6 +128,8 @@ export default function UserContent() {
                             )}
 
                         </div>
+
+       
                         
                         <div className="flex flex-col items-start justify-start mx-auto mb-5 space-y-2">
                                 <div className="flex flex-row items-center justify-between w-full mt-4 mb-5">

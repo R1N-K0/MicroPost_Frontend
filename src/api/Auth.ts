@@ -12,4 +12,3 @@ export const  sign_in = async(user_id: string, pass: string) => {
     const res = await axios.post(url, data)
     return res.data
 }
-
