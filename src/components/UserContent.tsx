@@ -128,8 +128,7 @@ export default function UserContent() {
             <div className="container mx-auto mt-12 flex flex-col space-y-1 max-w-2xl h-full mb-5">
                 {
                     userData ? 
-                    <>
-                          
+                    <> 
                         <div className="bg-white shadow-md rounded-lg p-6 relative">
                             {userInfo.id === userData.id && !isEdit && (
                             <svg 
@@ -143,18 +142,16 @@ export default function UserContent() {
                             </svg>
                             )}
 
-                            <div className="flex flex-col items-center justify-center space-y-2">
-                                
+                            <div className="flex flex-col items-center justify-center space-y-2"> 
                                 <div className="block w-24 h-24">
                                     <>
                                     <img className="rounded-full w-24 h-24" src={preview} alt="user icon"></img>
                                     </>                                
-
                                 </div>
                                 {isEdit ?<>
                                 <input type="file" onChange={handleChooseImage}  />
                                 <input className="mt-4 mb-5 w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder={userData.name} value={nameText} onChange={(e) => setNameText(e.target.value)} />
-                                <input className="mt-4 w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" type="text" value={descriptionText} onChange={(e) => setDescriptionText(e.target.value)}  placeholder={userData.description ? userData.description : "自己紹介"} />
+                                <textarea className="mt-4 w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" rows={3} value={descriptionText} onChange={(e) => setDescriptionText(e.target.value)}  placeholder={userData.description ? userData.description : "自己紹介"} />
                                  </>
                                 :<>
                                     <div className="font-bold text-2xl text-gray-800 mb-0">{userData.name}</div>

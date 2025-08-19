@@ -10,7 +10,7 @@ export default function ReloadButton() {
     }
     return (
         <>
-           <button onClick={onReloadClick} className="my-5 border border-gray-300 rounded-sm shadow-sm text-gray-900 px-2 hover:border-gray-700">更新</button>
+           <button onClick={onReloadClick} className="my-5 border border-gray-300 rounded-sm  shadow-md text-gray-700  px-4  hover:border-gray-400 transition-colors duration-300">更新</button>
         </>
     )
 }
