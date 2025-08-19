@@ -32,6 +32,8 @@ export const useImage = () => {
             setUploadedImage(res.data.secure_url);
             setImage(null)
             alert("Succeeded in image upload");
+            
+            return res.data.secure_url
             } catch (error) {
                 alert("Failed to image upload");
             }

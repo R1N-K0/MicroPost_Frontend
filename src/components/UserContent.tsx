@@ -8,29 +8,31 @@ import { getUserPosts } from "../api/Post"
 import { PostType } from "../providers/PostListProvider"
 import Post from "./Post"
 import { useImage } from "../hooks/useImage"
-import  ImageUpload  from "./ImageUpload";
-
-
+import { getProfile, updateOrCreateProfile } from "../api/Profile"
 
 export default function UserContent() {
-    const {image, uploadedImage,  handleChooseImage, handleUploadImage,preview, setPreview } = useImage()
+    const { handleChooseImage, handleUploadImage,preview, setPreview } = useImage()
     const {userInfo} = useContext(UserContext)
     const [userData, setUserData] = useState<UserData | null>(null)
     const [userPosts, setUserPosts] = useState<PostType[]>([])
     const [isEdit, setIsEdit] = useState<boolean>(false)
-    const [text,setText] = useState<string>("")
+    const [nameText,setNameText] = useState<string>("")
+    const [descriptionText, setDescriptionText] = useState<string>("")
+    
     const {id} = useParams()
     const user_id = id ? parseInt(id) : null
 
     const onClickEdit = () => {
         setIsEdit(true)      
         if(!userData) return;
-        setText(userData.name)
+        setNameText(userData.name)
+        setDescriptionText(userData.description)
     }
 
     const onClickBack = () => {
         setIsEdit(false)
-        setText("")
+        setNameText("")
+        setDescriptionText("")
         if(userData?.image) {
             setPreview(userData.image)
         }
@@ -40,22 +42,43 @@ export default function UserContent() {
     }
 
     const onClickSubmit = async () => {
-        await handleUploadImage()
+        const uploadedUrl = await handleUploadImage()
         const data = {
-            name: text
+            name: nameText,
+            img: uploadedUrl ? uploadedUrl : userData?.image,
+            description: descriptionText
         }
-        const res = await updateUser(userInfo.token, userData!.id, data)
-        setIsEdit(false)
-        setText("")
-        if(!res) return
-        setUserData({...res, image: uploadedImage})
+        if(!userData) return
+        try {
+            const res = await updateOrCreateProfile(userInfo.token, userData.id, data)
+            setIsEdit(false)
+            setNameText("")
+            setDescriptionText("")
+            if(!res) return
+            const newUserData = {
+                name: res.user.name,
+                description: res.profile.description,
+                image: res.profile.img
+            }
+            setUserData((prev) => {
+                if(!prev) return prev;
+                return {
+                    ...prev,...newUserData
+                }
+            })
+        } catch (error) {
+            setIsEdit(false)
+            setNameText("")
+            setDescriptionText("")
+        }
     }
     
     useEffect(() => {
       (async() => {
         if(!user_id) return;
         const user = await getUser(user_id, userInfo.token)
-        setUserData(user)
+        const profile = await getProfile(userInfo.token, user_id)
+        setUserData({...user, description:profile.description, image: profile.img})
         const posts = await getUserPosts(userInfo.token, user.id)
         if(posts){
                     const postList: PostType[] = posts.map((p: any) => ({
@@ -107,17 +130,22 @@ export default function UserContent() {
                                 </div>
                                 {isEdit ?<>
                                 <input type="file" onChange={handleChooseImage}  />
-                                <input className="mt-4 w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder={userData.name} value={text} onChange={(e) => setText(e.target.value)} /> </>
-                                :<div className="font-bold text-2xl text-gray-800">{userData.name}</div> }
-
-                                <div className="text-gray-500 text-sm">@{userData.id}</div>
-                                <div className="text-gray-400 text-sm">
-                                    {new Date(userData.created_at).toLocaleDateString("ja-JP", {
-                                    year: "numeric",
-                                    month: "2-digit",
-                                    day: "2-digit",
-                                    }).split("/").join("-")} に始めました
-                                </div>
+                                <input className="mt-4 mb-5 w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder={userData.name} value={nameText} onChange={(e) => setNameText(e.target.value)} />
+                                <input className="mt-4 w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" type="text" value={descriptionText} onChange={(e) => setDescriptionText(e.target.value)}  placeholder={userData.description ? userData.description : "自己紹介"} />
+                                 </>
+                                :<>
+                                    <div className="font-bold text-2xl text-gray-800">{userData.name}</div>
+                                    <div className="text-gray-500 text-sm">@{userData.id}</div>
+                                    <div className="mt-3 mb-3 text-start text-gray-500 text-sm">{userData.description}</div> 
+                                    <div className="text-gray-400 text-sm">
+                                        {new Date(userData.created_at).toLocaleDateString("ja-JP", {
+                                        year: "numeric",
+                                        month: "2-digit",
+                                        day: "2-digit",
+                                        }).split("/").join("-")} に始めました
+                                    </div>   
+                                </> }
+                               
                             </div>
 
                             {isEdit && (
