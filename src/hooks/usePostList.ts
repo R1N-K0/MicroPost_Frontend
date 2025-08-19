@@ -19,6 +19,8 @@ export const usePostList = () => {
                 user_id: p.user_id,
                 name: p.name,
                 content: p.content,
+                img: p.img,
+                description: p.description,
                 created_at: new Date(p.created_at)
                     
             }))

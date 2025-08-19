@@ -30,8 +30,9 @@ export default function PostList() {
                         user_id: p.user_id,
                         name: p.name,
                         content: p.content,
-                        created_at: new Date(p.created_at)
-                            
+                        img: p.img,
+                        description: p.description,
+                        created_at: new Date(p.created_at) 
                     }))
                     if(postList.length > 0 && postIdRef.current < postList[0].id){
                         setPostList(postList)

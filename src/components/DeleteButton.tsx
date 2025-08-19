@@ -19,7 +19,7 @@ export default function DeleteButton(props: Props) {
     
     return (
         <>
-            <button className="text-sm border border-gray-300 shadow-sm px-1 rounded-sm  hover:text-red-500" onClick={onPostDelete}>削除</button>
+            <button className="absolute top-3 right-3 text-sm border border-gray-300 shadow-sm px-1 rounded-sm  hover:text-red-500" onClick={onPostDelete}>削除</button>
         </>
     )
 }

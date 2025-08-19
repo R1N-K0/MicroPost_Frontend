@@ -36,24 +36,28 @@ export default function Post(props: Props) {
     }
     return (
 
-        <div className="block  w-full min-w-96 p-3 text-left px-7 border border-gray-200 rounded-lg shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center">
-                    <div className="text-sm font-bold text-gray-900">
-                        <Link to={`/main/${post.user_id}`}>{post.name ? post.name : "ユーザー名"}</Link>
+        <div className="block  w-full min-w-96 p-3 text-left px-5 border border-gray-200 rounded-lg shadow-sm relative">
+            <div className="flex flex-row space-x-3 items-start justify-start w-full">
+                <div><Link to={`/main/${post.user_id}`}><img className="rounded-full w-10 h-10" src={post.img ? post.img :"/no-data.jpg"} alt="user icon"></img></Link></div>
+                <div>
+                    <div className="flex items-center justify-between space-x-3 w-full">
+                        <div className="flex items-center">
+                            <div className="text-sm font-bold text-gray-900">
+                                <Link to={`/main/${post.user_id}`}>{post.name ? post.name : "ユーザー名"}</Link>
+                            </div>
+                        </div>
+                       <div className="flex items-center justify-center space-x-1">
+                            <div className="text-gray-400 text-sm font-normal">{getDateStr(post.created_at)}</div>
+                       </div>
                     </div>
+                    <p className="font-normal text-gray-700 ">
+                        {getLines(post.content)} 
+                    </p>
                 </div>
-               <div className="flex items-center justify-center space-x-1">
-                    <div className="text-gray-400 text-sm font-normal">{getDateStr(post.created_at)}</div>
-                    {
-                        userInfo.id === post.user_id ? <DeleteButton id = {post.id}></DeleteButton> : null
-                    }
-               </div>
             </div>
-            <p className="font-normal text-gray-700 ">
-                {getLines(post.content)}
-                
-            </p>
+              {
+                userInfo.id === post.user_id ? <DeleteButton id = {post.id}></DeleteButton> : null
+                }
         </div>
     )
 }

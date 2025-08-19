@@ -8,6 +8,8 @@ export type PostType = {
     user_id: number
     name: string,
     content: string,
+    description?: string,
+    img?: string
     created_at: Date
 }
 

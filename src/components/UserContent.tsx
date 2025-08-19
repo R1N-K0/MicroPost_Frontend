@@ -86,6 +86,8 @@ export default function UserContent() {
                         user_id: p.user_id,
                         name: p.name,
                         content: p.content,
+                        img: p.img,
+                        setDescription: p.description,
                         created_at: new Date(p.created_at)
                             
                     }))
@@ -134,8 +136,8 @@ export default function UserContent() {
                                 <input className="mt-4 w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 text-lg font-semibold text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" type="text" value={descriptionText} onChange={(e) => setDescriptionText(e.target.value)}  placeholder={userData.description ? userData.description : "自己紹介"} />
                                  </>
                                 :<>
-                                    <div className="font-bold text-2xl text-gray-800">{userData.name}</div>
-                                    <div className="text-gray-500 text-sm">@{userData.id}</div>
+                                    <div className="font-bold text-2xl text-gray-800 mb-0">{userData.name}</div>
+                                    <div className="text-gray-500 text-sm mt-0">@{userData.id}</div>
                                     <div className="mt-3 mb-3 text-start text-gray-500 text-sm">{userData.description}</div> 
                                     <div className="text-gray-400 text-sm">
                                         {new Date(userData.created_at).toLocaleDateString("ja-JP", {
@@ -159,12 +161,12 @@ export default function UserContent() {
 
        
                         
-                        <div className="flex flex-col items-start justify-start mx-auto mb-5 space-y-2">
+                        <div className="flex flex-col items-start justify-start  mb-5 space-y-2">
                                 <div className="flex flex-row items-center justify-between w-full mt-4 mb-5">
                                     <div className="text-gray-700 font-bold ">投稿一覧</div>
                                     <div>投稿数：{userPosts.length}</div>    
                                 </div>
-                                <div className="flex flex-col items-center justify-center space-y-4 ">
+                                <div className="flex flex-col items-center justify-center space-y-4 w-full mx-auto">
                                     {   
                                         userPosts.length > 0 ?
                                         
