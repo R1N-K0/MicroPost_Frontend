@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from "react"
+import { ReactNode, useContext, JSX } from "react"
 import { PostType } from "../providers/PostListProvider"
 import React from "react"
 import styled from "styled-components"
@@ -6,11 +6,13 @@ import { UserContext } from "../providers/UserProvider"
 import DeleteButton from "./DeleteButton"
 import { Link } from "react-router-dom"
 
+
 type Props = {
     post: PostType
+    onClick: () => Promise<void>
 }
 export default function Post(props: Props) {
-    const {post} = props
+    const {post, onClick} = props
     const {userInfo} = useContext(UserContext)
     console.log(post);
 
@@ -56,7 +58,7 @@ export default function Post(props: Props) {
                 </div>
             </div>
               {
-                userInfo.id === post.user_id ? <DeleteButton id = {post.id}></DeleteButton> : null
+                userInfo.id === post.user_id ? <DeleteButton id = {post.id} onClick={onClick}></DeleteButton> : null
                 }
         </div>
     )

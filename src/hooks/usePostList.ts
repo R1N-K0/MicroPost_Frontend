@@ -35,5 +35,5 @@ export const usePostList = () => {
     
     }
 
-    return {getPostList}
+    return {getPostList, setIndex}
 }

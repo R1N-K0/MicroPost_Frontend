@@ -4,11 +4,12 @@ import { useState } from "react"
 import { UserData } from "../types/UserData"
 import { UserContext } from "../providers/UserProvider"
 import { useParams } from "react-router-dom"
-import { getUserPosts } from "../api/Post"
+import { deletePost, getUserPosts } from "../api/Post"
 import { PostType } from "../providers/PostListProvider"
 import Post from "./Post"
 import { useImage } from "../hooks/useImage"
 import { getProfile, updateOrCreateProfile } from "../api/Profile"
+import { PostContext } from "../providers/PostListProvider"
 
 export default function UserContent() {
     const { handleChooseImage, handleUploadImage,preview, setPreview } = useImage()
@@ -73,6 +74,26 @@ export default function UserContent() {
         }
     }
     
+    const onPostDelete = async(postId: number, userId: number | null) => {
+       if(!userData) return
+       await deletePost(userInfo.token, postId)
+       const posts = await getUserPosts(userInfo.token, userData.id)
+        if(posts){
+                    const postList: PostType[] = posts.map((p: any) => ({
+                        id: p.id,
+                        user_id: p.user_id,
+                        name: p.name,
+                        content: p.content,
+                        img: p.img,
+                        description: p.description,
+                        created_at: new Date(p.created_at)
+                            
+                    }))
+                    setUserPosts(postList)
+                }
+       
+    }
+
     useEffect(() => {
       (async() => {
         if(!user_id) return;
@@ -87,7 +108,7 @@ export default function UserContent() {
                         name: p.name,
                         content: p.content,
                         img: p.img,
-                        setDescription: p.description,
+                        description: p.description,
                         created_at: new Date(p.created_at)
                             
                     }))
@@ -166,12 +187,12 @@ export default function UserContent() {
                                     <div className="text-gray-700 font-bold ">投稿一覧</div>
                                     <div>投稿数：{userPosts.length}</div>    
                                 </div>
-                                <div className="flex flex-col items-center justify-center space-y-4 w-full mx-auto">
+                                <div className="flex flex-col items-center justify-center space-y-4 w-full mx-auto ">
                                     {   
                                         userPosts.length > 0 ?
                                         
                                         userPosts.map((post) => (
-                                            <Post post={post} key={post.id}></Post>
+                                            <Post post={post} key={post.id} onClick={() => onPostDelete(post.id, user_id)}></Post>
                                         )) : <div>投稿はありません</div>
                                     }
                                 </div>

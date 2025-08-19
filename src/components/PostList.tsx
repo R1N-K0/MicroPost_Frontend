@@ -9,6 +9,7 @@ import { PageContext } from "../providers/PageProvider";
 import ReloadButton from "./ReloadButton";
 import { usePostList } from "../hooks/usePostList";
 import SearchBox from "./SearchBox";
+import { deletePost } from "../api/Post";
 
 export default function PostList() {
     const {postList, keyword,setPostList} = useContext(PostContext);
@@ -46,6 +47,11 @@ export default function PostList() {
         })();
     }, [])
 
+    const onPostDelete = async(id: number) => {
+            await deletePost(userInfo.token, id)
+            await getPostList(0)
+    }
+
     return (
         <div className="overflow-y-scroll h-full py-5 ">
             <div>
@@ -56,7 +62,7 @@ export default function PostList() {
             <div className="flex flex-col items-center justify-center space-y-4 w-full px-64 mt-3 mb-5">
                 {postList.length == 0 ? <SNotFoundDiv>投稿がありません</SNotFoundDiv> : 
                 (postList.map((post: PostType) => (
-                    <Post key={post.id} post ={post}></Post>
+                    <Post key={post.id} post ={post} onClick={() => onPostDelete(post.id)}></Post>
     
                 )))
                 }
@@ -66,12 +72,6 @@ export default function PostList() {
         </div>
     )
 }
-
-const SPostList = styled.div`;
-    margin-top: 16px;
-    height: 100%;
-    overflow-y: scroll;
-`
 
 const SNotFoundDiv = styled.div`
     margin-top: 30px;

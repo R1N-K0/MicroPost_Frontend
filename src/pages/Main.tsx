@@ -9,11 +9,10 @@ export default function Main() {
     const loggedIn = (userInfo.token !== "");
     return (
         <>  
-        <PostProvider>
+      
             {
                 loggedIn ? <Layout></Layout> : <Navigate replace to="/"></Navigate>
             }
-        </PostProvider>
         
         </>
     )

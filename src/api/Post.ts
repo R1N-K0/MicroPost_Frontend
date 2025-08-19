@@ -5,7 +5,6 @@ const api = process.env.REACT_APP_API_URL
 export const getList = async(token: string, start:number=0, q: string) => {
     const url = `${api}/post?token=${token}&records=10&start=${start}&q=${q}`;
     const res = await axios.get(url);
-
     return res.data
 }
 
