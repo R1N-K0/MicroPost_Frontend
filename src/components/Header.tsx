@@ -23,13 +23,13 @@ export default function Header() {
     }, [])
 
     return (
-        <SHeader>
-            <SLogo><Link to="/main">MicroPost</Link></SLogo>
-            <SRightItem>
-                <SName><Link to={`/main/${userInfo.id}`}>{userName}</Link></SName>
-                <SLogout onClick={logout}>ログアウト</SLogout>
-            </SRightItem>
-        </SHeader>
+        <div className="bg-gray-900 flex flex-row text-white px-6 h-full items-center py-3">
+            <div className="font-bold text-lg"><Link to="/main">MicroPost</Link></div>
+            <div className="flex flex-row justify-end items-center w-full space-x-3">
+                <div><Link to={`/main/${userInfo.id}`}>{userName}</Link></div>
+                <div className="cursor-pointer" onClick={logout}>ログアウト</div>
+            </div>
+        </div>
     )
 }
 

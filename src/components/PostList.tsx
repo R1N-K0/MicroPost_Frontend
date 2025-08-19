@@ -53,7 +53,7 @@ export default function PostList() {
     }
 
     return (
-        <div className="overflow-y-scroll h-full py-5 ">
+        <div className="container w-full overflow-y-scroll h-full py-5 ">
             <div>
                 <p className="text-2xl font-bold text-slate-800">PostList</p>
                 <SearchBox></SearchBox>
