@@ -6,6 +6,7 @@ import { PostType } from "../providers/PostListProvider";
 import styled from "styled-components";
 import { usePostList } from "../hooks/usePostList";
 import { getUser } from "../api/User";
+import { Link } from "react-router-dom";
 
 
 type UserModel = {
@@ -50,6 +51,9 @@ export default function SideBar() {
                <div className="ps-1">
                   <div className="font-semibold text-gray-700 -mt-1">{User?.email}</div>
                </div>
+               <div>
+                <Link to={`/main/${userInfo.id}`}><button className="bg-white border border-gray-300 rounded-md shadow-md w-full font-semibold text-gray-700 py-1 hover:bg-gray-100 transition-colors duration-300">プロフィールを見る</button></Link>
+               </div>
               </div>
               <div>
                 <div>
@@ -66,10 +70,3 @@ export default function SideBar() {
 
 
 
-const SSideBarButton = styled.button`
-  background-color: #222222;
-  padding: 4px;
-  border-radius: 8px;
-  color: #FAFAFA;
-  width: 100%;
-`
